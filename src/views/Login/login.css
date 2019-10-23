@@ -1,0 +1,8 @@
+.login_back {
+  margin: 0;
+  padding: 0;
+  background-image: url("../../assets/img//banner-Image.png");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+}
