@@ -843,6 +843,1026 @@ export const getTaxData = () => (dispatch) => {
     });
 };
 
+//update parameter
+export const updateVat = ({
+  id,
+  PriotirydropDownValue,
+  Name,
+  Description,
+  Percentage,
+  TaxOnTax
+}) => (dispatch) => {
+  // Headers
+  const config = {
+    headers: {
+      "Content-Type": "application/json"
+    }
+  };
+
+  // Request body
+  const body = JSON.stringify({
+    id,
+    PriotirydropDownValue,
+    Name,
+    Description,
+    Percentage,
+    TaxOnTax
+  });
+
+  axios
+    .put("/api/appSetting/updateVATData", body, config)
+    .then((res) => {
+      dispatch({
+        type: "TAX_UPDATED"
+      });
+      toast.success("Data Updated Successfully!");
+      dispatch(getTaxData());
+      dispatch({
+        type: "CHANGE_TAX_UPDATE_STATE"
+      });
+    })
+    .catch((err) => {
+      dispatch({
+        type: "UPDATE_TAX_UNSUCCESS"
+      });
+      toast.error("Vat Update Failed!");
+      dispatch(
+        returnErrors(
+          err.response.data,
+          err.response.status,
+          "UPDATE_TAX_UNSUCCESS"
+        )
+      );
+      console.log(err);
+    });
+};
+
+//delete Tax
+export const deleteTax = (id) => (dispatch) => {
+  console.log("id is : " + id);
+  axios
+    .delete(`/api/appSetting/deleteTax/${id}`)
+    .then((res) => {
+      dispatch({
+        type: "TAX_DELETED",
+        value: id
+      });
+      toast.success("Data Deleted Successfully!");
+    })
+    .catch((err) => {
+      toast.error("Data Delete Failed!");
+      console.log("Data Delete error! : " + err);
+    });
+};
+
+// Register Taxtype
+export const AddCountry = ({ Name, Abbreviation }) => (dispatch) => {
+  // Headers
+  const config = {
+    headers: {
+      "Content-Type": "application/json"
+    }
+  };
+
+  // Request body
+  const body = JSON.stringify({
+    Name,
+    Abbreviation
+  });
+
+  console.log(Name, Abbreviation);
+
+  axios
+    .post("/api/appSetting/AddCountry", body, config)
+    .then((res) => {
+      dispatch({
+        type: "ADD_COUNTRY_SUCCESS"
+      });
+      dispatch(getCountry());
+      toast.success("Country Name Added Successfully!");
+      dispatch({
+        type: "CHANGE_COUNTRY_STATE"
+      });
+    })
+    .catch((err) => {
+      dispatch({
+        type: "ADD_COUNTRY_FAIL"
+      });
+      dispatch(
+        returnErrors(err.response.data, err.response.status, "ADD_COUNTRY_FAIL")
+      );
+    });
+};
+
+export const getCountry = () => (dispatch) => {
+  axios
+    .get("/api/appSetting/CountryData")
+    .then((res) =>
+      dispatch({
+        type: "GET_COUNTRY_DATA",
+        value: res.data
+      })
+    )
+    .catch((err) => {
+      console.log("Show Tax Data error! : " + err);
+    });
+};
+
+//update parameter
+export const updateCountry = ({ id, Name, Abbreviation }) => (dispatch) => {
+  // Headers
+  const config = {
+    headers: {
+      "Content-Type": "application/json"
+    }
+  };
+
+  // Request body
+  const body = JSON.stringify({
+    id,
+    Name,
+    Abbreviation
+  });
+
+  axios
+    .put("/api/appSetting/updateCountryData", body, config)
+    .then((res) => {
+      dispatch({
+        type: "COUNTRY_UPDATED"
+      });
+      toast.success("Data Updated Successfully!");
+      dispatch(getCountry());
+      dispatch({
+        type: "CHANGE_COUNTRY_UPDATE_STATE"
+      });
+    })
+    .catch((err) => {
+      dispatch({
+        type: "UPDATE_COUNTRY_UNSUCCESS"
+      });
+      toast.error("Country Update Failed!");
+      dispatch(
+        returnErrors(
+          err.response.data,
+          err.response.status,
+          "UPDATE_COUNTRY_UNSUCCESS"
+        )
+      );
+      console.log(err);
+    });
+};
+
+//delete Tax
+export const deleteCountry = (id) => (dispatch) => {
+  console.log("id is : " + id);
+  axios
+    .delete(`/api/appSetting/deleteCountry/${id}`)
+    .then((res) => {
+      dispatch({
+        type: "COUNTRY_DELETED",
+        value: id
+      });
+      toast.success("Data Deleted Successfully!");
+    })
+    .catch((err) => {
+      toast.error("Data Delete Failed!");
+      console.log("Data Delete error! : " + err);
+    });
+};
+
+// Register Currency
+export const AddCurrency = ({
+  Name,
+  abbreviation,
+  buyRate,
+  sellrate,
+  decimalPlaces
+}) => (dispatch) => {
+  // Headers
+  const config = {
+    headers: {
+      "Content-Type": "application/json"
+    }
+  };
+
+  // Request body
+  const body = JSON.stringify({
+    Name,
+    abbreviation,
+    buyRate,
+    sellrate,
+    decimalPlaces
+  });
+
+  console.log(Name, abbreviation, buyRate, sellrate, decimalPlaces);
+
+  axios
+    .post("/api/appSetting/AddCurrency", body, config)
+    .then((res) => {
+      dispatch({
+        type: "ADD_CURRENCY_SUCCESS"
+      });
+      dispatch(getCurrency());
+      toast.success("Currency Data Added Successfully!");
+      dispatch({
+        type: "CHANGE_CURRENCY_STATE"
+      });
+    })
+    .catch((err) => {
+      dispatch({
+        type: "ADD_CURRENCY_FAIL"
+      });
+      dispatch(
+        returnErrors(
+          err.response.data,
+          err.response.status,
+          "ADD_CURRENCY_FAIL"
+        )
+      );
+    });
+};
+
+export const getCurrency = () => (dispatch) => {
+  axios
+    .get("/api/appSetting/CurrencyData")
+    .then((res) =>
+      dispatch({
+        type: "GET_CURRENCY_DATA",
+        value: res.data
+      })
+    )
+    .catch((err) => {
+      console.log("Show Currency Data error! : " + err);
+    });
+};
+
+//update parameter
+export const updateCurrency = ({
+  id,
+  Name,
+  abbreviation,
+  buyRate,
+  sellrate,
+  decimalPlaces
+}) => (dispatch) => {
+  // Headers
+  const config = {
+    headers: {
+      "Content-Type": "application/json"
+    }
+  };
+
+  // Request body
+  const body = JSON.stringify({
+    id,
+    Name,
+    abbreviation,
+    buyRate,
+    sellrate,
+    decimalPlaces
+  });
+
+  axios
+    .put("/api/appSetting/updateCurrencyData", body, config)
+    .then((res) => {
+      dispatch({
+        type: "CURRENCY_UPDATED"
+      });
+      toast.success("Data Updated Successfully!");
+      dispatch(getCurrency());
+      dispatch({
+        type: "CHANGE_CURRENCY_UPDATE_STATE"
+      });
+    })
+    .catch((err) => {
+      dispatch({
+        type: "UPDATE_CURRENCY_UNSUCCESS"
+      });
+      toast.error("Currency Update Failed!");
+      dispatch(
+        returnErrors(
+          err.response.data,
+          err.response.status,
+          "UPDATE_CURRENCY_UNSUCCESS"
+        )
+      );
+      console.log(err);
+    });
+};
+//delete Currency
+export const deleteCurrency = (id) => (dispatch) => {
+  console.log("id is : " + id);
+  axios
+    .delete(`/api/appSetting/deleteCurrency/${id}`)
+    .then((res) => {
+      dispatch({
+        type: "CURRENCY_DELETED",
+        value: id
+      });
+      toast.success("Data Deleted Successfully!");
+    })
+    .catch((err) => {
+      toast.error("Data Delete Failed!");
+      console.log("Data Delete error! : " + err);
+    });
+};
+
+// Register Currency
+export const AddRegion = ({ Name }) => (dispatch) => {
+  // Headers
+  const config = {
+    headers: {
+      "Content-Type": "application/json"
+    }
+  };
+
+  // Request body
+  const body = JSON.stringify({
+    Name
+  });
+
+  console.log(Name);
+
+  axios
+    .post("/api/appSetting/AddRegion", body, config)
+    .then((res) => {
+      dispatch({
+        type: "ADD_REGION_SUCCESS"
+      });
+      dispatch(getRegion());
+      toast.success("Region Data Added Successfully!");
+      dispatch({
+        type: "CHANGE_REGION_STATE"
+      });
+    })
+    .catch((err) => {
+      dispatch({
+        type: "ADD_REGION_FAIL"
+      });
+      dispatch(
+        returnErrors(err.response.data, err.response.status, "ADD_REGION_FAIL")
+      );
+    });
+};
+
+export const getRegion = () => (dispatch) => {
+  axios
+    .get("/api/appSetting/RegionData")
+    .then((res) =>
+      dispatch({
+        type: "GET_REGION_DATA",
+        value: res.data
+      })
+    )
+    .catch((err) => {
+      console.log("Show Region Data error! : " + err);
+    });
+};
+
+//update parameter
+export const updateRegion = ({ id, Name }) => (dispatch) => {
+  // Headers
+  const config = {
+    headers: {
+      "Content-Type": "application/json"
+    }
+  };
+
+  // Request body
+  const body = JSON.stringify({
+    id,
+    Name
+  });
+
+  axios
+    .put("/api/appSetting/updateRegionData", body, config)
+    .then((res) => {
+      dispatch({
+        type: "REGION_UPDATED"
+      });
+      toast.success("Data Updated Successfully!");
+      dispatch(getRegion());
+      dispatch({
+        type: "CHANGE_REGION_UPDATE_STATE"
+      });
+    })
+    .catch((err) => {
+      dispatch({
+        type: "UPDATE_REGION_UNSUCCESS"
+      });
+      toast.error("Region Update Failed!");
+      dispatch(
+        returnErrors(
+          err.response.data,
+          err.response.status,
+          "UPDATE_REGION_UNSUCCESS"
+        )
+      );
+      console.log(err);
+    });
+};
+
+//delete Region
+export const deleteRegion = (id) => (dispatch) => {
+  console.log("id is : " + id);
+  axios
+    .delete(`/api/appSetting/deleteRegion/${id}`)
+    .then((res) => {
+      dispatch({
+        type: "REGION_DELETED",
+        value: id
+      });
+      toast.success("Data Deleted Successfully!");
+    })
+    .catch((err) => {
+      toast.error("Data Delete Failed!");
+      console.log("Data Delete error! : " + err);
+    });
+};
+
+// Register Customer type
+export const AddCustomerType = ({ Name }) => (dispatch) => {
+  // Headers
+  const config = {
+    headers: {
+      "Content-Type": "application/json"
+    }
+  };
+
+  // Request body
+  const body = JSON.stringify({
+    Name
+  });
+
+  console.log(Name);
+
+  axios
+    .post("/api/appSetting/AddCustomerType", body, config)
+    .then((res) => {
+      dispatch({
+        type: "ADD_CUSTOMER_TYPE_SUCCESS"
+      });
+      dispatch(getCustomerType());
+      toast.success("Customer type Data Added Successfully!");
+      dispatch({
+        type: "CHANGE_CUSTOMER_TYPE_STATE"
+      });
+    })
+    .catch((err) => {
+      dispatch({
+        type: "ADD_CUSTOMER_TYPE_FAIL"
+      });
+      dispatch(
+        returnErrors(
+          err.response.data,
+          err.response.status,
+          "ADD_CUSTOMER_TYPE_FAIL"
+        )
+      );
+    });
+};
+
+export const getCustomerType = () => (dispatch) => {
+  axios
+    .get("/api/appSetting/CustomerTypeData")
+    .then((res) =>
+      dispatch({
+        type: "GET_CUSTOMER_TYPE_DATA",
+        value: res.data
+      })
+    )
+    .catch((err) => {
+      console.log("Show Customer Type Data error! : " + err);
+    });
+};
+
+//update CustomerType
+export const updateCustomerType = ({ id, Name }) => (dispatch) => {
+  // Headers
+  const config = {
+    headers: {
+      "Content-Type": "application/json"
+    }
+  };
+
+  // Request body
+  const body = JSON.stringify({
+    id,
+    Name
+  });
+
+  axios
+    .put("/api/appSetting/updateCustomerTypeData", body, config)
+    .then((res) => {
+      dispatch({
+        type: "CUSTOMER_TYPE_UPDATED"
+      });
+      toast.success("Data Updated Successfully!");
+      dispatch(getCustomerType());
+      dispatch({
+        type: "CHANGE_CUSTOMER_TYPE_UPDATE_STATE"
+      });
+    })
+    .catch((err) => {
+      dispatch({
+        type: "UPDATE_CUSTOMER_TYPE_UNSUCCESS"
+      });
+      toast.error("Region Update Failed!");
+      dispatch(
+        returnErrors(
+          err.response.data,
+          err.response.status,
+          "UPDATE_CUSTOMER_TYPE_UNSUCCESS"
+        )
+      );
+      console.log(err);
+    });
+};
+
+//delete Region
+export const deleteCustomerType = (id) => (dispatch) => {
+  console.log("id is : " + id);
+  axios
+    .delete(`/api/appSetting/deleteCustomerType/${id}`)
+    .then((res) => {
+      dispatch({
+        type: "CUSTOMER_TYPE_DELETED",
+        value: id
+      });
+      toast.success("Data Deleted Successfully!");
+    })
+    .catch((err) => {
+      toast.error("Data Delete Failed!");
+      console.log("Data Delete error! : " + err);
+    });
+};
+
+// Register Customer type
+export const AddCustomerConDept = ({ Name }) => (dispatch) => {
+  // Headers
+  const config = {
+    headers: {
+      "Content-Type": "application/json"
+    }
+  };
+
+  // Request body
+  const body = JSON.stringify({
+    Name
+  });
+
+  console.log(Name);
+
+  axios
+    .post("/api/appSetting/AddCustomerConDept", body, config)
+    .then((res) => {
+      dispatch({
+        type: "ADD_CUSTOMER_CONTACT_DEPARTMENT_SUCCESS"
+      });
+      dispatch(getCustomerConDept());
+      toast.success("Data Added Successfully!");
+      dispatch({
+        type: "CHANGE_CUSTOMER_CONTACT_DEPARTMENT_STATE"
+      });
+    })
+    .catch((err) => {
+      dispatch({
+        type: "ADD_CUSTOMER_CONTACT_DEPARTMENT_FAIL"
+      });
+      dispatch(
+        returnErrors(
+          err.response.data,
+          err.response.status,
+          "ADD_CUSTOMER_CONTACT_DEPARTMENT_FAIL"
+        )
+      );
+    });
+};
+
+export const getCustomerConDept = () => (dispatch) => {
+  axios
+    .get("/api/appSetting/CustomerConDeptData")
+    .then((res) =>
+      dispatch({
+        type: "GET_CUSTOMER_CONTACT_DEPARTMENT_DATA",
+        value: res.data
+      })
+    )
+    .catch((err) => {
+      console.log("Show Customer Contact Department Data error! : " + err);
+    });
+};
+
+//update CustomerType
+export const updateCustomerConDept = ({ id, Name }) => (dispatch) => {
+  // Headers
+  const config = {
+    headers: {
+      "Content-Type": "application/json"
+    }
+  };
+
+  // Request body
+  const body = JSON.stringify({
+    id,
+    Name
+  });
+
+  axios
+    .put("/api/appSetting/updateCustomerConDeptData", body, config)
+    .then((res) => {
+      dispatch({
+        type: "CUSTOMER_CONTACT_DEPARTMENT_UPDATED"
+      });
+      toast.success("Data Updated Successfully!");
+      dispatch(getCustomerConDept());
+      dispatch({
+        type: "CHANGE_CUSTOMER_CONTACT_DEPARTMENT_UPDATE_STATE"
+      });
+    })
+    .catch((err) => {
+      dispatch({
+        type: "UPDATE_CUSTOMER_CONTACT_DEPARTMENT_UNSUCCESS"
+      });
+      toast.error("Update Failed!");
+      dispatch(
+        returnErrors(
+          err.response.data,
+          err.response.status,
+          "UPDATE_CUSTOMER_CONTACT_DEPARTMENT_UNSUCCESS"
+        )
+      );
+      console.log(err);
+    });
+};
+
+//delete Region
+export const deleteCustomerConDept = (id) => (dispatch) => {
+  console.log("id is : " + id);
+  axios
+    .delete(`/api/appSetting/deleteCustomerConDept/${id}`)
+    .then((res) => {
+      dispatch({
+        type: "CUSTOMER_CONTACT_DEPARTMENT_DELETED",
+        value: id
+      });
+      toast.success("Data Deleted Successfully!");
+    })
+    .catch((err) => {
+      toast.error("Data Delete Failed!");
+      console.log("Data Delete error! : " + err);
+    });
+};
+
+// Register invoice
+export const AddInvoice = ({ Name, suffix, nextNumber }) => (dispatch) => {
+  // Headers
+  const config = {
+    headers: {
+      "Content-Type": "application/json"
+    }
+  };
+
+  // Request body
+  const body = JSON.stringify({
+    Name,
+    suffix,
+    nextNumber
+  });
+
+  axios
+    .post("/api/appSetting/AddInvoice", body, config)
+    .then((res) => {
+      dispatch({
+        type: "ADD_INVOICE_SUCCESS"
+      });
+      dispatch(getInvoice());
+      toast.success("Invoice Added Successfully!");
+      dispatch({
+        type: "CHANGE_INVOICE_STATE"
+      });
+    })
+    .catch((err) => {
+      dispatch({
+        type: "ADD_INVOICE_FAIL"
+      });
+      dispatch(
+        returnErrors(err.response.data, err.response.status, "ADD_INVOICE_FAIL")
+      );
+    });
+};
+
+export const getInvoice = () => (dispatch) => {
+  axios
+    .get("/api/appSetting/invoiceData")
+    .then((res) =>
+      dispatch({
+        type: "GET_INVOICE_DATA",
+        value: res.data
+      })
+    )
+    .catch((err) => {
+      console.log("Show invoice Data error! : " + err);
+    });
+};
+
+//update CustomerType
+export const updateInvoice = ({ id, Name, suffix, nextNumber }) => (
+  dispatch
+) => {
+  // Headers
+  const config = {
+    headers: {
+      "Content-Type": "application/json"
+    }
+  };
+
+  // Request body
+  const body = JSON.stringify({
+    id,
+    Name,
+    suffix,
+    nextNumber
+  });
+
+  axios
+    .put("/api/appSetting/updateInvoiceData", body, config)
+    .then((res) => {
+      dispatch({
+        type: "INVOICE_UPDATED"
+      });
+      toast.success("Data Updated Successfully!");
+      dispatch(getInvoice());
+      dispatch({
+        type: "CHANGE_INVOICE_UPDATE_STATE"
+      });
+    })
+    .catch((err) => {
+      dispatch({
+        type: "UPDATE_INVOICE_UNSUCCESS"
+      });
+      toast.error("Update Failed!");
+      dispatch(
+        returnErrors(
+          err.response.data,
+          err.response.status,
+          "UPDATE_INVOICE_UNSUCCESS"
+        )
+      );
+      console.log(err);
+    });
+};
+
+//delete Region
+export const deleteInvoice = (id) => (dispatch) => {
+  console.log("id is : " + id);
+  axios
+    .delete(`/api/appSetting/deleteinvoice/${id}`)
+    .then((res) => {
+      dispatch({
+        type: "INVOICE_DELETED",
+        value: id
+      });
+      toast.success("Data Deleted Successfully!");
+    })
+    .catch((err) => {
+      toast.error("Data Delete Failed!");
+      console.log("Data Delete error! : " + err);
+    });
+};
+
+// Register Customer type
+export const AddPaymentMethod = ({ Name }) => (dispatch) => {
+  // Headers
+  const config = {
+    headers: {
+      "Content-Type": "application/json"
+    }
+  };
+
+  // Request body
+  const body = JSON.stringify({
+    Name
+  });
+
+  console.log(Name);
+
+  axios
+    .post("/api/appSetting/AddPaymentMethod", body, config)
+    .then((res) => {
+      dispatch({
+        type: "ADD_PAYMENT_SUCCESS"
+      });
+      dispatch(getPaymentMethod());
+      toast.success("Payment Method Added Successfully!");
+      dispatch({
+        type: "CHANGE_PAYMENT_STATE"
+      });
+    })
+    .catch((err) => {
+      dispatch({
+        type: "ADD_PAYMENT_FAIL"
+      });
+      dispatch(
+        returnErrors(err.response.data, err.response.status, "ADD_PAYMENT_FAIL")
+      );
+    });
+};
+
+export const getPaymentMethod = () => (dispatch) => {
+  axios
+    .get("/api/appSetting/PaymentMethodData")
+    .then((res) =>
+      dispatch({
+        type: "GET_PAYMENT_DATA",
+        value: res.data
+      })
+    )
+    .catch((err) => {
+      console.log("show PaymentMethod  Data error! : " + err);
+    });
+};
+
+//update CustomerType
+export const updatePaymentMethod = ({ id, Name }) => (dispatch) => {
+  // Headers
+  const config = {
+    headers: {
+      "Content-Type": "application/json"
+    }
+  };
+
+  // Request body
+  const body = JSON.stringify({
+    id,
+    Name
+  });
+
+  axios
+    .put("/api/appSetting/updatePaymentMethod", body, config)
+    .then((res) => {
+      dispatch({
+        type: "PAYMENT_UPDATED"
+      });
+      toast.success("Data Updated Successfully!");
+      dispatch(getPaymentMethod());
+      dispatch({
+        type: "CHANGE_PAYMENT_UPDATE_STATE"
+      });
+    })
+    .catch((err) => {
+      dispatch({
+        type: "UPDATE_PAYMENT_UNSUCCESS"
+      });
+      toast.error("Payment Method Update Failed!");
+      dispatch(
+        returnErrors(
+          err.response.data,
+          err.response.status,
+          "UPDATE_PAYMENT_UNSUCCESS"
+        )
+      );
+      console.log(err);
+    });
+};
+
+//delete Region
+export const deletePaymentMethod = (id) => (dispatch) => {
+  console.log("id is : " + id);
+  axios
+    .delete(`/api/appSetting/DeletePaymentMethod/${id}`)
+    .then((res) => {
+      dispatch({
+        type: "PAYMENT_DELETED",
+        value: id
+      });
+      toast.success("Data Deleted Successfully!");
+    })
+    .catch((err) => {
+      toast.error("Data Delete Failed!");
+      console.log("Data Delete error! : " + err);
+    });
+};
+
+// Register Customer type
+export const AddPaymentTerm = ({ Name, duePeriod }) => (dispatch) => {
+  // Headers
+  const config = {
+    headers: {
+      "Content-Type": "application/json"
+    }
+  };
+
+  // Request body
+  const body = JSON.stringify({
+    Name,
+    duePeriod
+  });
+
+  console.log(Name);
+
+  axios
+    .post("/api/appSetting/AddPaymentTerm", body, config)
+    .then((res) => {
+      dispatch({
+        type: "ADD_PAYMENT_TERM_SUCCESS"
+      });
+      dispatch(getPaymentTerm());
+      toast.success("Payment Term Added Successfully!");
+      dispatch({
+        type: "CHANGE_PAYMENT_TERM_STATE"
+      });
+    })
+    .catch((err) => {
+      dispatch({
+        type: "ADD_PAYMENT_TERM_FAIL"
+      });
+      dispatch(
+        returnErrors(
+          err.response.data,
+          err.response.status,
+          "ADD_PAYMENT_TERM_FAIL"
+        )
+      );
+    });
+};
+
+export const getPaymentTerm = () => (dispatch) => {
+  axios
+    .get("/api/appSetting/PaymentTermData")
+    .then((res) =>
+      dispatch({
+        type: "GET_PAYMENT_TERM_DATA",
+        value: res.data
+      })
+    )
+    .catch((err) => {
+      console.log("show Payment Term Data error! : " + err);
+    });
+};
+
+//update CustomerType
+export const updatePaymentTerm = ({ id, Name, duePeriod }) => (dispatch) => {
+  // Headers
+  const config = {
+    headers: {
+      "Content-Type": "application/json"
+    }
+  };
+
+  // Request body
+  const body = JSON.stringify({
+    id,
+    Name,
+    duePeriod
+  });
+
+  axios
+    .put("/api/appSetting/updatePaymentTerm", body, config)
+    .then((res) => {
+      dispatch({
+        type: "PAYMENT_TERM_UPDATED"
+      });
+      toast.success("Data Updated Successfully!");
+      dispatch(getPaymentTerm());
+      dispatch({
+        type: "CHANGE_PAYMENT_TERM_UPDATE_STATE"
+      });
+    })
+    .catch((err) => {
+      dispatch({
+        type: "UPDATE_PAYMENT_UNSUCCESS"
+      });
+      toast.error("Payment Term Update Failed!");
+      dispatch(
+        returnErrors(
+          err.response.data,
+          err.response.status,
+          "UPDATE_PAYMENT_TERM_UNSUCCESS"
+        )
+      );
+      console.log(err);
+    });
+};
+
+//delete Region
+export const deletePaymentTerm = (id) => (dispatch) => {
+  console.log("id is : " + id);
+  axios
+    .delete(`/api/appSetting/DeletePaymentTerm/${id}`)
+    .then((res) => {
+      dispatch({
+        type: "PAYMENT_TERM_DELETED",
+        value: id
+      });
+      toast.success("Data Deleted Successfully!");
+    })
+    .catch((err) => {
+      toast.error("Data Delete Failed!");
+      console.log("Data Delete error! : " + err);
+    });
+};
+
 // Setup config/headers and token
 export const tokenConfig = (getState) => {
   // Get token from localstorage

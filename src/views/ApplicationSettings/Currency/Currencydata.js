@@ -4,11 +4,11 @@ import ReactTable from "react-table";
 import "react-table/react-table.css";
 import { connect } from "react-redux";
 import {
-  getCategoryData,
-  updateProduct,
-  deleteProduct,
-  getProductData
+  updateCurrency,
+  deleteCurrency,
+  getCurrency
 } from "./../../../actions/AuthApplicationSettingActions";
+import { clearErrors } from "../../../actions/errorActions";
 
 import {
   Button,
@@ -24,73 +24,73 @@ import {
   Container,
   Input,
   InputGroup,
-  ButtonDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
   Alert
 } from "reactstrap";
 
-class ProductData extends Component {
+class Currencydata extends Component {
   state = {
     modal: false,
-    rawid: null,
-    CategoryisOpen: false,
+    isOpen: false,
 
-    CatId: null,
     id: null,
-    name: null,
-    Description: null,
-
-    CategorydropDownValue: "Please Select!",
-
+    Name: "",
+    abbreviation: "",
+    buyRate: null,
+    sellrate: null,
     msg: null,
-    visibilityUpdate: false,
-    visibilityDelete: false
+    decimalPlaces: null
   };
   componentDidMount() {
-    this.props.GET_CATEGORY_DATA();
-    this.props.GET_PRODUCT_DATA();
+    this.props.GET_CURRENCY_DATA();
+  }
+
+  componentDidUpdate(prevProps) {
+    const { error, CurrencyUpdateStatus } = this.props;
+
+    if (
+      CurrencyUpdateStatus !== prevProps.CurrencyUpdateStatus &&
+      CurrencyUpdateStatus === true
+    ) {
+      this.modeltoggle();
+    }
+
+    if (error !== prevProps.error) {
+      if (error.id === "UPDATE_CURRENCY_UNSUCCESS") {
+        this.setState({ msg: error.msg });
+      } else {
+        this.setState({ msg: null });
+      }
+    }
   }
 
   modeltoggle = () => {
-    //this.props.CLEAR_ERROR();
+    this.props.CLEAR_ERROR();
+    this.setState({ msg: null });
     this.setState({ modal: !this.state.modal });
   };
-
-  Categorytoggle() {
-    this.setState({ CategoryisOpen: !this.state.CategoryisOpen });
-  }
 
   deleteRaw(id) {
     console.log("Index: ", id);
 
-    this.props.DELETE_PRODUCT(id);
+    this.props.DELETE_CURRENCY(id);
   }
 
   updateRaw = (id) => {
     console.log(id);
+
     if (id) {
       this.setState({
         id: id.id,
-        name: id.name,
-        Description: id.description,
-        CategorydropDownValue: id.categoryName
+        Name: id.name,
+        abbreviation: id.abbreviation,
+        buyRate: id.buyRate,
+        sellrate: id.sellrate,
+        decimalPlaces: id.decimalPlaces
       });
     }
 
     this.modeltoggle();
   };
-
-  changeValue(e, name) {
-    console.log(e.target.name);
-    if (e.target.name === "CatId") {
-      this.setState({
-        [e.target.name]: e.target.id,
-        CategorydropDownValue: name
-      });
-    }
-  }
 
   onChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });
@@ -98,51 +98,67 @@ class ProductData extends Component {
 
   onSubmit = (e) => {
     e.preventDefault();
-    this.modeltoggle();
-    const { name, id, Description, CatId } = this.state;
 
-    const newProduct = {
+    const {
       id,
-      name,
-      Description,
-      CatId
-    };
-    this.props.UPDATE_PRODUCT_DATA(newProduct);
+      Name,
+      abbreviation,
+      buyRate,
+      sellrate,
+      decimalPlaces
+    } = this.state;
+
+    if (!Name || !abbreviation || !buyRate || !sellrate || !decimalPlaces) {
+      this.setState({ msg: "Please Fill All Data!" });
+    } else {
+      this.setState({ msg: null });
+
+      const newCurrency = {
+        id,
+        Name,
+        abbreviation,
+        buyRate,
+        sellrate,
+        decimalPlaces
+      };
+      console.log(id, Name, abbreviation, buyRate, sellrate, decimalPlaces);
+
+      this.props.UPDATE_CURRENCY(newCurrency);
+    }
   };
 
   render() {
     const coulmns = [
       {
-        Header: "Product Name",
+        Header: " Name",
         accessor: "name",
         sortable: true,
         filterable: true
       },
       {
-        Header: "Product Description",
-        accessor: "description",
-        sortable: false,
-        filterable: false
-      },
-      {
-        Header: "Category Name",
-        accessor: "categoryName",
+        Header: "Abbreviation",
+        accessor: "abbreviation",
         sortable: true,
         filterable: true
       },
       {
-        Header: "Lower Price",
-        accessor: "lowerPrice",
+        Header: "Buy Rate",
+        accessor: "buyRate",
         sortable: true,
         filterable: true
       },
       {
-        Header: "Upper Price",
-        accessor: "upperPrice",
+        Header: "Sell Rate",
+        accessor: "sellrate",
         sortable: true,
         filterable: true
       },
-
+      {
+        Header: "Decimal Places",
+        accessor: "decimalPlaces",
+        sortable: true,
+        filterable: true
+      },
       {
         Header: "Action",
         Cell: (props) => {
@@ -183,7 +199,7 @@ class ProductData extends Component {
         <div>
           <Modal isOpen={this.state.modal} toggle={this.modeltoggle}>
             <ModalHeader toggle={this.modeltoggle}>
-              Update Product Data
+              Update Currency Data
             </ModalHeader>
             <ModalBody>
               <Container>
@@ -196,103 +212,91 @@ class ProductData extends Component {
                       <Row>
                         <InputGroup className="mb-3">
                           <Col>
-                            <b className="mr-2">Product ID</b>
-                          </Col>
-                          <Col>
-                            <Input
-                              type="number"
-                              name="id"
-                              className="form-control  "
-                              id="id"
-                              value={this.state.id ? this.state.id : ""}
-                              disabled={true}
-                            />
-                          </Col>
-                        </InputGroup>
-                      </Row>
-
-                      <Row>
-                        <InputGroup className="mb-3">
-                          <Col>
-                            <b className="mr-4">Product Name:</b>
+                            <b>Name:</b>
                           </Col>
                           <Col>
                             <Input
                               type="text"
-                              name="name"
-                              className="form-control "
-                              id="CategoryName"
+                              placeholder="Name"
+                              name="Name"
+                              value={this.state.Name}
                               onChange={this.onChange}
-                              value={this.state.name ? this.state.name : ""}
                             />
                           </Col>
                         </InputGroup>
                       </Row>
-
                       <Row>
                         <InputGroup className="mb-3">
                           <Col>
-                            <b className="mr-4">Product Description:</b>
+                            <b>Abbreviation:</b>
                           </Col>
-
                           <Col>
                             <Input
-                              type="textarea"
-                              name="Description"
-                              className="form-control"
-                              id="Description"
+                              type="text"
+                              placeholder="Abbreviation"
+                              name="abbreviation"
+                              value={this.state.abbreviation}
                               onChange={this.onChange}
-                              value={
-                                this.state.Description
-                                  ? this.state.Description
-                                  : ""
-                              }
                             />
                           </Col>
                         </InputGroup>
                       </Row>
                       <Row>
-                        {/* ///drop down Category// */}
-
                         <InputGroup className="mb-3">
                           <Col>
-                            <b>Category Name</b>
+                            <b>buy Rate:</b>
                           </Col>
-
                           <Col>
-                            <ButtonDropdown
-                              isOpen={this.state.CategoryisOpen}
-                              toggle={() => {
-                                this.Categorytoggle();
-                              }}
-                            >
-                              <DropdownToggle caret color="light">
-                                {this.state.CategorydropDownValue}
-                              </DropdownToggle>
-                              <DropdownMenu right>
-                                {this.props.CategoryData
-                                  ? this.props.CategoryData.map((cat, i) => (
-                                      <div key={i}>
-                                        <DropdownItem
-                                          name="CatId"
-                                          id={cat.id}
-                                          onClick={(e) =>
-                                            this.changeValue(e, cat.name)
-                                          }
-                                        >
-                                          {cat.name}
-                                        </DropdownItem>
-                                      </div>
-                                    ))
-                                  : ""}
-                              </DropdownMenu>
-                            </ButtonDropdown>
+                            <Input
+                              type="number"
+                              placeholder="buy Rate"
+                              name="buyRate"
+                              min="0"
+                              step="any"
+                              value={this.state.buyRate}
+                              onChange={this.onChange}
+                            />
+                          </Col>
+                        </InputGroup>
+                      </Row>
+
+                      <Row>
+                        <InputGroup className="mb-3">
+                          <Col>
+                            <b>sell rate:</b>
+                          </Col>
+                          <Col>
+                            <Input
+                              type="number"
+                              placeholder="Sell rate"
+                              name="sellrate"
+                              step="any"
+                              value={this.state.sellrate}
+                              onChange={this.onChange}
+                            />
+                          </Col>
+                        </InputGroup>
+                      </Row>
+
+                      <Row>
+                        <InputGroup className="mb-3">
+                          <Col>
+                            <b>Decimal Places:</b>
+                          </Col>
+                          <Col>
+                            <Input
+                              type="number"
+                              placeholder="Decimal Places"
+                              name="decimalPlaces"
+                              value={this.state.decimalPlaces}
+                              onChange={this.onChange}
+                            />
                           </Col>
                         </InputGroup>
                       </Row>
 
                       <Button block color="success">
-                        Update Product
+                        Update
                       </Button>
                     </Form>
                   </CardBody>
@@ -306,16 +310,16 @@ class ProductData extends Component {
           <Col xl={12}>
             <Card>
               <CardHeader>
-                <i className="fa fa-align-justify"></i> Product
+                <i className="fa fa-align-justify"></i> Currency
                 <small className="text-muted"> Data</small>
               </CardHeader>
               <CardBody>
-                {this.props.ProductData ? (
+                {this.props.CurrencyData ? (
                   <ReactTable
                     columns={coulmns}
-                    data={this.props.ProductData}
+                    data={this.props.CurrencyData}
                     defaultPageSize={10}
-                    noDataText={"No Product Data Available"}
+                    noDataText={"No Currency Data Available"}
                   ></ReactTable>
                 ) : null}
               </CardBody>
@@ -328,21 +332,23 @@ class ProductData extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  CategoryData: state.AppSetting.CategoryData,
-  ProductData: state.AppSetting.ProductData
+  CurrencyData: state.AppSetting.CurrencyData,
+
+  CurrencyUpdateStatus: state.AppSetting.CurrencyUpdateStatus,
+  error: state.error
 });
 
 const mapDispachToProps = (dispach) => {
   return {
-    UPDATE_PRODUCT_DATA: (newProduct) => dispach(updateProduct(newProduct)),
-    DELETE_PRODUCT: (id) => dispach(deleteProduct(id)),
-    GET_PRODUCT_DATA: () => dispach(getProductData()),
-    GET_CATEGORY_DATA: () => dispach(getCategoryData())
-    //CLEAR_ERROR: () => dispach(clearErrors())
+    UPDATE_CURRENCY: (Update) => dispach(updateCurrency(Update)),
+    DELETE_CURRENCY: (id) => dispach(deleteCurrency(id)),
+    GET_CURRENCY_DATA: () => dispach(getCurrency()),
+
+    CLEAR_ERROR: () => dispach(clearErrors())
   };
 };
 
 export default connect(
   mapStateToProps,
   mapDispachToProps
-)(ProductData);
+)(Currencydata);

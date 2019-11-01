@@ -5,6 +5,7 @@ import errorReducer from "./errorReducer";
 import pageReducer from "./pageReducer";
 import tableReducer from "./tableReducer";
 import AuthApplicationSettingReducer from "./AuthApplicationSettingReducer";
+import StakeholderReducer from "./StakeholderReducer";
 
 export default combineReducers({
   item: itemReducer,
@@ -12,5 +13,6 @@ export default combineReducers({
   error: errorReducer,
   page: pageReducer,
   table: tableReducer,
-  AppSetting: AuthApplicationSettingReducer
+  AppSetting: AuthApplicationSettingReducer,
+  StakeHolderSetting: StakeholderReducer
 });

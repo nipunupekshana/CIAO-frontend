@@ -4,8 +4,8 @@ import ReactTable from "react-table";
 import "react-table/react-table.css";
 import { connect } from "react-redux";
 import {
-  updateParameter,
-  deletePara,
+  updateVat,
+  deleteTax,
   getTaxData
 } from "./../../../actions/AuthApplicationSettingActions";
 import { clearErrors } from "../../../actions/errorActions";
@@ -54,17 +54,17 @@ class TaxData extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { error, ParaUpdateStatus } = this.props;
+    const { error, TaxUpdateStatus } = this.props;
 
     if (
-      ParaUpdateStatus !== prevProps.ParaUpdateStatus &&
-      ParaUpdateStatus === true
+      TaxUpdateStatus !== prevProps.TaxUpdateStatus &&
+      TaxUpdateStatus === true
     ) {
       this.modeltoggle();
     }
 
     if (error !== prevProps.error) {
-      if (error.id === "UPDATE_PARAMETER_UNSUCCESS") {
+      if (error.id === "UPDATE_TAX_UNSUCCESS") {
         this.setState({ msg: error.msg });
       } else {
         this.setState({ msg: null });
@@ -92,27 +92,24 @@ class TaxData extends Component {
   deleteRaw(id) {
     console.log("Index: ", id);
 
-    this.props.DELETE_PARA(id);
+    this.props.DELETE_TAX(id);
   }
 
   updateRaw = (id) => {
-    if (id.DataType === "LOGICAL") {
-      if (id.Value === "True") {
-        this.setState({ IsTrue: true });
-      } else if (id.Value === "True") {
-        this.setState({ IsTrue: false });
-      }
+    if (id.taxOnTax === "True") {
+      this.setState({ IsTrue: true });
+    } else {
+      this.setState({ IsTrue: false });
     }
-
     console.log(id);
 
     if (id) {
       this.setState({
         id: id.id,
         Name: id.name,
-        Description: id.Description,
-        DataTypedropDownValue: id.DataType,
-        Data: id.Value
+        Description: id.description,
+        PriotirydropDownValue: id.priority,
+        Percentage: id.percentage
       });
     }
 
@@ -126,29 +123,44 @@ class TaxData extends Component {
   onSubmit = (e) => {
     e.preventDefault();
     let value;
-    const { id, Name, Description, Data, DataTypedropDownValue } = this.state;
-    value = Data;
+    const {
+      id,
+      PriotirydropDownValue,
+      Name,
+      Description,
+      Percentage,
+      IsTrue
+    } = this.state;
+    let TaxOnTax = "False";
 
-    if (!Name || DataTypedropDownValue === "Please Select!") {
-      this.setState({ msg: "Please Fil All Data!" });
+    if (!Name || PriotirydropDownValue === "Please Select!" || !Percentage) {
+      this.setState({ msg: "Please Fill All Data!" });
     } else {
-      if (DataTypedropDownValue === "LOGICAL") {
-        if (this.state.IsTrue) {
-          value = "True";
-        } else {
-          value = "False";
-        }
-      }
       this.setState({ msg: null });
-      const newParameter = {
+      if (IsTrue) {
+        TaxOnTax = "True";
+      } else {
+        TaxOnTax = "False";
+      }
+
+      this.setState({ msg: null });
+      const newTax = {
         id,
         Name,
+        PriotirydropDownValue,
         Description,
-        value,
-        DataTypedropDownValue
+        Percentage,
+        TaxOnTax
       };
-      console.log(Name, Description, DataTypedropDownValue, value);
-      this.props.UPDATE_PARAMETER(newParameter);
+      console.log(
+        id,
+        Name,
+        PriotirydropDownValue,
+        Description,
+        Percentage,
+        TaxOnTax
+      );
+      this.props.UPDATE_TAX(newTax);
     }
   };
 
@@ -245,6 +257,7 @@ class TaxData extends Component {
                               type="text"
                               placeholder="Tax Name"
                               name="Name"
+                              value={this.state.Name}
                               onChange={this.onChange}
                             />
                           </Col>
@@ -392,6 +405,7 @@ class TaxData extends Component {
                               type="text"
                               placeholder="Tax Percentage"
                               name="Percentage"
+                              value={this.state.Percentage}
                               onChange={this.onChange}
                             />
                           </Col>
@@ -428,6 +442,7 @@ class TaxData extends Component {
                               type="textarea"
                               placeholder="Tax Discription:"
                               name="Description"
+                              value={this.state.Description}
                               onChange={this.onChange}
                             />
                           </Col>
@@ -478,8 +493,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispachToProps = (dispach) => {
   return {
-    UPDATE_PARAMETER: (ItemUpdate) => dispach(updateParameter(ItemUpdate)),
-    DELETE_PARA: (id) => dispach(deletePara(id)),
+    UPDATE_TAX: (VATUpdate) => dispach(updateVat(VATUpdate)),
+    DELETE_TAX: (id) => dispach(deleteTax(id)),
     GET_TAX_DATA: () => dispach(getTaxData()),
 
     CLEAR_ERROR: () => dispach(clearErrors())

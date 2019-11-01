@@ -14,11 +14,10 @@ import {
   InputGroupAddon,
   InputGroupText,
   Row,
-
   Alert
 } from "reactstrap";
 import { connect } from "react-redux";
-import { loadPermission,regUserGroup } from "../../actions/authActions";
+import { loadPermission, regUserGroup } from "../../actions/authActions";
 import { clearErrors } from "../../actions/errorActions";
 
 import UserGroup from "./UserGroup";
@@ -62,13 +61,9 @@ class UserGroupReg extends Component {
       if (error.id === "REGISTER_USER_GROUP_FAIL") {
         this.setState({ msg: error.msg });
       } else {
-
         this.setState({ msg: null });
       }
     }
-
-
-
   }
 
   modeltoggle = () => {
@@ -76,20 +71,16 @@ class UserGroupReg extends Component {
     this.setState({ modal: !this.state.modal });
   };
 
-
-  onChange = e => {
+  onChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });
   };
 
-
-
-  onSubmit = e => {
+  onSubmit = (e) => {
     e.preventDefault();
 
-    const { Name} = this.state;
+    const { Name } = this.state;
     const newUserGroup = {
       Name
-
     };
     this.props.ADD_USER_GROUP(newUserGroup);
   };
@@ -109,7 +100,6 @@ class UserGroupReg extends Component {
                       <Alert color="danger">{this.state.msg}</Alert>
                     ) : null}
                     <Form onSubmit={this.onSubmit}>
-
                       <InputGroup className="mb-3">
                         <InputGroupAddon addonType="prepend">
                           <InputGroupText>
@@ -118,14 +108,12 @@ class UserGroupReg extends Component {
                         </InputGroupAddon>
                         <Input
                           type="text"
-
                           placeholder="User Group Name"
                           name="Name"
                           autoComplete="Name"
                           onChange={this.onChange}
                         />
                       </InputGroup>
-
 
                       <Button color="success" block>
                         Create User Group
@@ -159,17 +147,15 @@ class UserGroupReg extends Component {
   }
 }
 
-
-
-const mapStateToProps = state => ({
-  addUGrpStatus:state.auth.addUGrpStatus,
+const mapStateToProps = (state) => ({
+  addUGrpStatus: state.auth.addUGrpStatus,
   permissions: state.auth.permission,
   error: state.error
 });
 
-const mapDispachToProps = dispach => {
+const mapDispachToProps = (dispach) => {
   return {
-    ADD_USER_GROUP: newUser => dispach(regUserGroup(newUser)),
+    ADD_USER_GROUP: (newUser) => dispach(regUserGroup(newUser)),
     LOAD_PERMISSION: () => dispach(loadPermission()),
 
     CLEAR_ERROR: () => dispach(clearErrors())

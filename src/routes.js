@@ -39,6 +39,55 @@ const OverviewParamter = lazy(() =>
 );
 
 const TaxReg = lazy(() => import("./views/ApplicationSettings/Tax/TaxReg"));
+const CountryReg = lazy(() =>
+  import("./views/ApplicationSettings/Country/CountryReg")
+);
+
+const CurencyReg = lazy(() =>
+  import("./views/ApplicationSettings/Currency/CurencyReg")
+);
+
+const RegionReg = lazy(() =>
+  import("./views/ApplicationSettings/Region/RegionReg")
+);
+
+const CustomerTypeReg = lazy(() =>
+  import("./views/ApplicationSettings/CustomerType/CustomerTypeReg")
+);
+const CustomerContactDepartmentReg = lazy(() =>
+  import(
+    "./views/ApplicationSettings/customerContactDepartment/customerContactDepartmentReg"
+  )
+);
+
+const invoiceTypeReg = lazy(() =>
+  import("./views/ApplicationSettings/invoiceType/invoiceTypeReg")
+);
+
+const paymentMethodReg = lazy(() =>
+  import("./views/ApplicationSettings/PaymentMethods/paymentMethodReg")
+);
+
+const PaymentTermsReg = lazy(() =>
+  import("./views/ApplicationSettings/PaymentTerms/PaymentTermsReg")
+);
+
+const StakeholderReg = lazy(() =>
+  import("./views/StakeHolderMangment/CustomerHandle/StakeholderReg")
+);
+
+const StakeholderData = lazy(() =>
+  import("./views/StakeHolderMangment/CustomerHandle/StakeholderData")
+);
+
+const StakeholderAddress = lazy(() =>
+  import("./views/StakeHolderMangment/CustomerHandle/StakeholderAddress")
+);
+
+const AddressReg = lazy(() =>
+  import("./views/StakeHolderMangment/Address/AddressReg")
+);
+
 ///Application settings end
 
 //const page404 = lazy(() => import("./views/Pages/Page404/Page404"));
@@ -135,6 +184,78 @@ const routes = [
     exact: true,
     name: "Taxes",
     component: TaxReg
+  },
+  {
+    path: "/Country_Data",
+    exact: true,
+    name: "Country_data",
+    component: CountryReg
+  },
+  {
+    path: "/Currency",
+    exact: true,
+    name: "Currency",
+    component: CurencyReg
+  },
+  {
+    path: "/Region",
+    exact: true,
+    name: "Region",
+    component: RegionReg
+  },
+  {
+    path: "/Customer_type",
+    exact: true,
+    name: "Customer type",
+    component: CustomerTypeReg
+  },
+  {
+    path: "/Customer_Conatact_department",
+    exact: true,
+    name: "Customer Conatact Department",
+    component: CustomerContactDepartmentReg
+  },
+  {
+    path: "/invoice_Type",
+    exact: true,
+    name: "Invoice Type",
+    component: invoiceTypeReg
+  },
+  {
+    path: "/Payment_method",
+    exact: true,
+    name: "Payment Method",
+    component: paymentMethodReg
+  },
+  {
+    path: "/Payment_Term",
+    exact: true,
+    name: "Payment Term",
+    component: PaymentTermsReg
+  },
+  {
+    path: "/CustomerData/CustomerReg",
+    exact: true,
+    name: "Customer Reg",
+    component: StakeholderReg
+  },
+  {
+    path: "/CustomerData",
+    exact: true,
+    name: "Customer Data",
+    component: StakeholderData
+  },
+  {
+    path: "/CustomerData/CustomerReg/CustomerAddress",
+    exact: true,
+    name: "Customer Address",
+    component: StakeholderAddress
+  },
+  {
+    path: "/Address",
+    exact: true,
+    name: "Address Mangement",
+    component: AddressReg
   }
 ];
 

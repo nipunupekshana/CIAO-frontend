@@ -10,13 +10,35 @@ const initialState = {
   paramStatus: false,
   TaxStatus: false,
   TaxUpdateStatus: false,
+  CurrencyStatus: false,
+  CountryStatus: false,
+  CurrencyUpdateStatus: false,
+  RegionStatus: false,
+  CustomerTypeStatus: false,
+  CustomerTypeUpdateStatus: false,
+  CustomerConDeptStatus: false,
+  CustomerConDeptUpdateStatus: false,
+  PaymentMethodUpdateStatus: false,
+  PaymentMethodStatus: false,
+  InvoiceStatus: false,
+  InvoiceUpdateStatus: false,
+  PaymentTermStatus: false,
+  PaymentTermUpdateStatus: false,
   CategoryData: null,
   ParamData: null,
   ProductData: null,
   ShelfData: null,
   DeliveryData: null,
   ItemData: null,
-  TaxData: null
+  TaxData: null,
+  CountryData: null,
+  CurrencyData: null,
+  RegionData: null,
+  CustomerTypeData: null,
+  CustomerConDeptData: null,
+  InvoiceData: null,
+  PaymentMethodData: null,
+  PaymentTermData: null
 };
 
 const reducer = (state = initialState, action) => {
@@ -258,6 +280,379 @@ const reducer = (state = initialState, action) => {
         TaxData: state.TaxData.filter((tax) => tax.id !== action.value)
       };
 
+    case "ADD_COUNTRY_SUCCESS":
+      return {
+        ...state,
+        CountryStatus: true
+      };
+    case "ADD_COUNTRY_FAIL":
+      return {
+        ...state,
+        CountryStatus: false
+      };
+    case "CHANGE_COUNTRY_STATE":
+      return {
+        ...state,
+        CountryStatus: false
+      };
+
+    case "GET_COUNTRY_DATA":
+      return {
+        ...state,
+        CountryData: action.value
+      };
+    case "CHANGE_COUNTRY_UPDATE_STATE":
+      return {
+        ...state,
+        CountryUpdateStatus: false
+      };
+    case "COUNTRY_UPDATED":
+      return {
+        ...state,
+        CountryUpdateStatus: true
+      };
+
+    case "UPDATE_COUNTRY_UNSUCCESS":
+      return {
+        ...state,
+        CountryUpdateStatus: false
+      };
+
+    case "COUNTRY_DELETED":
+      console.log("ID I GOT " + action.value);
+      return {
+        ...state,
+        CountryData: state.CountryData.filter(
+          (Country) => Country.id !== action.value
+        )
+      };
+
+    case "ADD_CURRENCY_SUCCESS":
+      return {
+        ...state,
+        CurrencyStatus: true
+      };
+    case "ADD_CURRENCY_FAIL":
+      return {
+        ...state,
+        CurrencyStatus: false
+      };
+    case "CHANGE_CURRENCY_STATE":
+      return {
+        ...state,
+        CurrencyStatus: false
+      };
+
+    case "GET_CURRENCY_DATA":
+      return {
+        ...state,
+        CurrencyData: action.value
+      };
+    case "CHANGE_CURRENCY_UPDATE_STATE":
+      return {
+        ...state,
+        CurrencyUpdateStatus: false
+      };
+    case "CURRENCY_UPDATED":
+      return {
+        ...state,
+        CurrencyUpdateStatus: true
+      };
+
+    case "UPDATE_CURRENCY_UNSUCCESS":
+      return {
+        ...state,
+        CurrencyUpdateStatus: false
+      };
+
+    case "CURRENCY_DELETED":
+      console.log("ID I GOT " + action.value);
+      return {
+        ...state,
+        CurrencyData: state.CurrencyData.filter(
+          (Currency) => Currency.id !== action.value
+        )
+      };
+
+    case "ADD_REGION_SUCCESS":
+      return {
+        ...state,
+        RegionStatus: true
+      };
+    case "ADD_REGION_FAIL":
+      return {
+        ...state,
+        RegionStatus: false
+      };
+    case "CHANGE_REGION_STATE":
+      return {
+        ...state,
+        RegionStatus: false
+      };
+
+    case "GET_REGION_DATA":
+      return {
+        ...state,
+        RegionData: action.value
+      };
+    case "CHANGE_REGION_UPDATE_STATE":
+      return {
+        ...state,
+        RegionUpdateStatus: false
+      };
+    case "REGION_UPDATED":
+      return {
+        ...state,
+        RegionUpdateStatus: true
+      };
+
+    case "UPDATE_REGION_UNSUCCESS":
+      return {
+        ...state,
+        RegionUpdateStatus: false
+      };
+
+    case "REGION_DELETED":
+      console.log("ID I GOT " + action.value);
+      return {
+        ...state,
+        RegionData: state.RegionData.filter(
+          (Region) => Region.id !== action.value
+        )
+      };
+    case "ADD_CUSTOMER_TYPE_SUCCESS":
+      return {
+        ...state,
+        CustomerTypeStatus: true
+      };
+    case "ADD_CUSTOMER_TYPE_FAIL":
+      return {
+        ...state,
+        CustomerTypeStatus: false
+      };
+    case "CHANGE_CUSTOMER_TYPE_STATE":
+      return {
+        ...state,
+        CustomerTypeStatus: false
+      };
+
+    case "GET_CUSTOMER_TYPE_DATA":
+      return {
+        ...state,
+        CustomerTypeData: action.value
+      };
+    case "CHANGE_CUSTOMER_TYPE_UPDATE_STATE":
+      return {
+        ...state,
+        CustomerTypeUpdateStatus: false
+      };
+    case "CUSTOMER_TYPE_UPDATED":
+      return {
+        ...state,
+        CustomerTypeUpdateStatus: true
+      };
+
+    case "UPDATE_CUSTOMER_TYPE_UNSUCCESS":
+      return {
+        ...state,
+        CustomerTypeUpdateStatus: false
+      };
+
+    case "CUSTOMER_TYPE_DELETED":
+      console.log("ID I GOT " + action.value);
+      return {
+        ...state,
+        CustomerTypeData: state.CustomerTypeData.filter(
+          (CustomerType) => CustomerType.id !== action.value
+        )
+      };
+
+    case "ADD_CUSTOMER_CONTACT_DEPARTMENT_SUCCESS":
+      return {
+        ...state,
+        CustomerConDeptStatus: true
+      };
+    case "ADD_CUSTOMER_CONTACT_DEPARTMENT_FAIL":
+      return {
+        ...state,
+        CustomerConDeptStatus: false
+      };
+    case "CHANGE_CUSTOMER_CONTACT_DEPARTMENT_STATE":
+      return {
+        ...state,
+        CustomerConDeptStatus: false
+      };
+
+    case "GET_CUSTOMER_CONTACT_DEPARTMENT_DATA":
+      return {
+        ...state,
+        CustomerConDeptData: action.value
+      };
+    case "CHANGE_CUSTOMER_CONTACT_DEPARTMENT_UPDATE_STATE":
+      return {
+        ...state,
+        CustomerConDeptUpdateStatus: false
+      };
+    case "CUSTOMER_CONTACT_DEPARTMENT_UPDATED":
+      return {
+        ...state,
+        CustomerConDeptUpdateStatus: true
+      };
+
+    case "UPDATE_CUSTOMER_CONTACT_DEPARTMENT_UNSUCCESS":
+      return {
+        ...state,
+        CustomerConDeptUpdateStatus: false
+      };
+
+    case "CUSTOMER_CONTACT_DEPARTMENT_DELETED":
+      console.log("ID I GOT " + action.value);
+      return {
+        ...state,
+        CustomerConDeptData: state.CustomerConDeptData.filter(
+          (CustomerConDept) => CustomerConDept.id !== action.value
+        )
+      };
+    case "ADD_INVOICE_SUCCESS":
+      return {
+        ...state,
+        InvoiceStatus: true
+      };
+    case "ADD_INVOICE_FAIL":
+      return {
+        ...state,
+        InvoiceStatus: false
+      };
+    case "CHANGE_INVOICE_STATE":
+      return {
+        ...state,
+        InvoiceStatus: false
+      };
+
+    case "GET_INVOICE_DATA":
+      return {
+        ...state,
+        InvoiceData: action.value
+      };
+    case "CHANGE_INVOICE_UPDATE_STATE":
+      return {
+        ...state,
+        InvoiceUpdateStatus: false
+      };
+    case "INVOICE_UPDATED":
+      return {
+        ...state,
+        InvoiceUpdateStatus: true
+      };
+
+    case "UPDATE_INVOICE_UNSUCCESS":
+      return {
+        ...state,
+        InvoiceUpdateStatus: false
+      };
+
+    case "INVOICE_DELETED":
+      console.log("ID I GOT " + action.value);
+      return {
+        ...state,
+        InvoiceData: state.InvoiceData.filter(
+          (Invoice) => Invoice.id !== action.value
+        )
+      };
+
+    case "ADD_PAYMENT_SUCCESS":
+      return {
+        ...state,
+        PaymentMethodStatus: true
+      };
+    case "ADD_PAYMENT_FAIL":
+      return {
+        ...state,
+        PaymentMethodStatus: false
+      };
+    case "CHANGE_PAYMENT_STATE":
+      return {
+        ...state,
+        PaymentMethodStatus: false
+      };
+
+    case "GET_PAYMENT_DATA":
+      return {
+        ...state,
+        PaymentMethodData: action.value
+      };
+    case "CHANGE_PAYMENT_UPDATE_STATE":
+      return {
+        ...state,
+        PaymentMethodUpdateStatus: false
+      };
+    case "PAYMENT_UPDATED":
+      return {
+        ...state,
+        PaymentMethodUpdateStatus: true
+      };
+
+    case "UPDATE_PAYMENT_UNSUCCESS":
+      return {
+        ...state,
+        PaymentMethodUpdateStatus: false
+      };
+
+    case "PAYMENT_DELETED":
+      console.log("ID I GOT " + action.value);
+      return {
+        ...state,
+        PaymentMethodData: state.PaymentMethodData.filter(
+          (pMethod) => pMethod.id !== action.value
+        )
+      };
+
+    case "ADD_PAYMENT_TERM_SUCCESS":
+      return {
+        ...state,
+        PaymentTermStatus: true
+      };
+    case "ADD_PAYMENT_TERM_FAIL":
+      return {
+        ...state,
+        PaymentTermStatus: false
+      };
+    case "CHANGE_PAYMENT_TERM_STATE":
+      return {
+        ...state,
+        PaymentTermStatus: false
+      };
+
+    case "GET_PAYMENT_TERM_DATA":
+      return {
+        ...state,
+        PaymentTermData: action.value
+      };
+    case "CHANGE_PAYMENT_TERM_UPDATE_STATE":
+      return {
+        ...state,
+        PaymentTermUpdateStatus: false
+      };
+    case "PAYMENT_TERM_UPDATED":
+      return {
+        ...state,
+        PaymentTermUpdateStatus: true
+      };
+
+    case "UPDATE_PAYMENT_TERM_UNSUCCESS":
+      return {
+        ...state,
+        PaymentTermUpdateStatus: false
+      };
+
+    case "PAYMENT_TERM_DELETED":
+      console.log("ID I GOT " + action.value);
+      return {
+        ...state,
+        PaymentTermData: state.PaymentTermData.filter(
+          (pTerm) => pTerm.id !== action.value
+        )
+      };
     default:
       break;
   }

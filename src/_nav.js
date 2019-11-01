@@ -181,6 +181,93 @@ export default {
           // start
 
           ///end
+        },
+        {
+          name: "Country_data",
+          url: "/Country_Data",
+          icon: "icon-cursor"
+          // start
+
+          ///end
+        },
+        {
+          name: "Currency",
+          url: "/Currency",
+          icon: "icon-cursor"
+          // start
+
+          ///end
+        },
+        {
+          name: "Region",
+          url: "/Region",
+          icon: "icon-cursor"
+          // start
+
+          ///end
+        },
+        {
+          name: "Customer type",
+          url: "/Customer_type",
+          icon: "icon-cursor"
+          // start
+
+          ///end
+        },
+        {
+          name: "Customer Conatact Department",
+          url: "/Customer_Conatact_department",
+          icon: "icon-cursor"
+          // start
+
+          ///end
+        },
+        {
+          name: "Invoice Type",
+          url: "/invoice_Type",
+          icon: "icon-cursor"
+          // start
+
+          ///end
+        },
+        {
+          name: "Payment Method",
+          url: "/Payment_method",
+          icon: "icon-cursor"
+          // start
+
+          ///end
+        },
+        {
+          name: "Payment Term",
+          url: "/Payment_Term",
+          icon: "icon-cursor"
+          // start
+
+          ///end
+        }
+      ]
+    },
+    {
+      name: "Customer Management",
+      url: "/Customermangement",
+      icon: "fa fa-book",
+      children: [
+        {
+          name: "Customer",
+          url: "/CustomerData",
+          icon: "icon-cursor"
+          // start
+
+          ///end
+        },
+        {
+          name: "Address",
+          url: "/Address",
+          icon: "icon-cursor"
+          // start
+
+          ///end
         }
       ]
     },
